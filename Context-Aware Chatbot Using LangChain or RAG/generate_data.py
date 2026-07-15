@@ -1,0 +1,109 @@
+"""
+Builds a small custom knowledge-base corpus for the RAG chatbot: internal-style
+product documentation for a fictional SaaS product ('Nimbus Analytics'). Each
+entry is a self-contained passage, the unit the retriever will search over.
+"""
+import json
+
+docs = [
+    {
+        "id": "doc_01",
+        "title": "Nimbus Analytics - Getting Started",
+        "text": "Nimbus Analytics is a cloud-based business intelligence platform for "
+                 "building dashboards, reports, and automated alerts from your company's "
+                 "data. To get started, create a workspace, connect a data source "
+                 "(PostgreSQL, MySQL, Google Sheets, or a CSV upload), and use the "
+                 "drag-and-drop chart builder to create your first dashboard. New "
+                 "workspaces come with a 14-day free trial of the Pro plan."
+    },
+    {
+        "id": "doc_02",
+        "title": "Pricing Plans",
+        "text": "Nimbus Analytics offers three plans. The Starter plan is $19/month per "
+                 "user and includes up to 3 dashboards and 2 data sources. The Pro plan is "
+                 "$49/month per user and includes unlimited dashboards, 10 data sources, "
+                 "and scheduled email reports. The Enterprise plan is custom-priced and "
+                 "adds SSO, audit logs, dedicated support, and unlimited data sources. "
+                 "Annual billing gives a 20% discount on all plans."
+    },
+    {
+        "id": "doc_03",
+        "title": "Connecting a Data Source",
+        "text": "To connect a data source, go to Workspace Settings > Data Sources > Add "
+                 "New. Supported connectors include PostgreSQL, MySQL, Snowflake, Google "
+                 "Sheets, and CSV upload. Database connections require a read-only "
+                 "credential; Nimbus never writes to your source database. Once connected, "
+                 "data syncs every 15 minutes on the Pro plan, or every hour on Starter."
+    },
+    {
+        "id": "doc_04",
+        "title": "Troubleshooting Sync Errors",
+        "text": "If a data source shows a sync error, first check that the database "
+                 "credentials haven't expired and that the Nimbus IP range is allow-listed "
+                 "in your firewall. Common error ERR_TIMEOUT means the query took longer "
+                 "than 60 seconds; try narrowing the date range on large tables. If errors "
+                 "persist, use the 'Test Connection' button in Data Source Settings for a "
+                 "detailed diagnostic log."
+    },
+    {
+        "id": "doc_05",
+        "title": "User Roles & Permissions",
+        "text": "Nimbus Analytics supports three roles: Admin, Editor, and Viewer. Admins "
+                 "can manage billing, users, and data sources. Editors can create and edit "
+                 "dashboards but cannot manage billing or users. Viewers have read-only "
+                 "access to dashboards they've been shared. Roles are assigned per "
+                 "workspace under Settings > Members, and a user can hold different roles "
+                 "in different workspaces."
+    },
+    {
+        "id": "doc_06",
+        "title": "Scheduled Reports",
+        "text": "Scheduled reports let you email a dashboard snapshot to yourself or your "
+                 "team on a recurring basis. Available on the Pro and Enterprise plans, "
+                 "reports can be scheduled daily, weekly, or monthly, and delivered as PDF "
+                 "or PNG. To set one up, open a dashboard, click 'Schedule', choose a "
+                 "frequency and recipients, and select the export format."
+    },
+    {
+        "id": "doc_07",
+        "title": "API Access",
+        "text": "The Nimbus Analytics REST API lets you programmatically create "
+                 "dashboards, pull chart data, and manage users. API keys are generated "
+                 "under Workspace Settings > API Keys and are scoped per workspace. "
+                 "Rate limits are 100 requests per minute on Pro and 1000 requests per "
+                 "minute on Enterprise. Full API documentation is available at "
+                 "docs.nimbusanalytics.example/api."
+    },
+    {
+        "id": "doc_08",
+        "title": "Cancelling or Downgrading a Plan",
+        "text": "To cancel or downgrade, go to Billing > Manage Subscription. "
+                 "Downgrades take effect at the end of the current billing cycle, and any "
+                 "dashboards or data sources beyond the new plan's limit are archived "
+                 "(not deleted) and can be restored by upgrading again within 90 days. "
+                 "Cancellations stop future billing immediately but do not issue prorated "
+                 "refunds for the current cycle."
+    },
+    {
+        "id": "doc_09",
+        "title": "Security & Compliance",
+        "text": "Nimbus Analytics encrypts data in transit with TLS 1.3 and at rest with "
+                 "AES-256. Enterprise plans support SSO via SAML 2.0 and detailed audit "
+                 "logs of user actions, exportable as CSV. Nimbus is SOC 2 Type II "
+                 "certified; a copy of the compliance report is available on request "
+                 "from your account manager."
+    },
+    {
+        "id": "doc_10",
+        "title": "Mobile App",
+        "text": "The Nimbus Analytics mobile app is available for iOS and Android and "
+                 "lets you view dashboards, receive push notifications for alerts, and "
+                 "approve pending data source connections. The mobile app is read-only; "
+                 "dashboard editing is only supported on the web app."
+    },
+]
+
+with open("data/knowledge_base.json", "w") as f:
+    json.dump(docs, f, indent=2)
+
+print(f"Saved {len(docs)} knowledge base documents to data/knowledge_base.json")
